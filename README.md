@@ -41,3 +41,13 @@ Multithreaded-Alarm-System/
 │
 ├── 3221E_F24_Mutex-Based.pdf        # Assignment 2 PDF specification
 └── 3221E_F24_Semaphore-Based.pdf    # Assignment 3 PDF specification
+
+```
+---
+
+## Authors
+    •    Rami Omer
+    •    Mohammad Zarif
+    •    Shaylin Ziaei
+    •    Rayhaan Yaser Mohammed
+
