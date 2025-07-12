@@ -1,0 +1,313 @@
+Test 1
+Start a New Alarm
+Description: Test creating a new alarm with valid inputs.
+Input: Start_Alarm(1): Group(10) 10 Test Alarm Message
+Output:
+Alarm(<1>) Inserted by Main Thread <140590925268800> Into Alarm List at <1733098264>: Group(<10>) <10 Test Alarm Message>”.
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <140590900070144> For Alarm(<1>) at <1733098264>: Group(<10>) <10 Test Alarm Message>
+Alarm(<1>) Printed by Display Alarm Thread <140590900070144> at <1733098274>: Group(<10>) <10 Test Alarm Message>
+Alarm(<1>) Printed by Display Alarm Thread <140590900070144> at <1733098284>: Group(<10>) <10 Test Alarm Message>
+Alarm(<1>) Printed by Display Alarm Thread <140590900070144> at <1733098294>: Group(<10>) <10 Test Alarm Message>
+Alarm(<1>) Printed by Display Alarm Thread <140590900070144> at <1733098304>: Group(<10>) <10 Test Alarm Message>
+
+Test 2
+Start Duplicate Alarm
+Description: Attempt to start an alarm with a duplicate ID.
+Input: Start_Alarm(1): Group(10) 10 Duplicate Alarm
+Output:
+Error: Alarm with ID 1 already exists.
+
+Test 3
+Start Alarm with Invalid Input
+Description: Test starting alarms with invalid or edge-case inputs.
+Input: Start_Alarm(0): Group(2) 10 Invalid ID 			Output: Bad Command
+Input: Start_Alarm(1): Group(0) 10 Invalid Group		Output: Bad Command
+Input: Start_Alarm(-1): Group(-2) -10 Invalid Values		Output: Bad Command
+
+Test 4
+Change an Existing Alarm
+Description: Test modifying an alarm’s properties.
+Input: Change_Alarm(1): Group(3) 15 Modified Message 
+Output:
+Alarm(<1>) Changed at <1733098904>: Group(<3>) <15 Modified Message >
+Alarm> Display Thread <140023710353152> Has Stopped Printing Message of Alarm(<1>) at <1733098904>: Changed Group(<3>) <15 Modified Message >
+No More Alarms in Group(<10>) Alarm Removal Thread Has Removed Display Alarm Thread <140023710353152> at <1733098904>: Group(<10>)
+Alarm Group Display Creation Thread Created New Display Alarm Thread <140023699764992> For Alarm(<1>) at <1733098904>: Group(<3>) <15 Modified Message >
+Display Thread <140023699764992> Starts to Print Changed Message Alarm(<1>) at <1733098919>: Group(<3>) <15 Modified Message >
+Alarm(<1>) Printed by Display Alarm Thread <140023699764992> at <1733098934>: Group(<3>) <15 Modified Message >
+Alarm(<1>) Printed by Display Alarm Thread <140023699764992> at <1733098949>: Group(<3>) <15 Modified Message >
+Alarm(<1>) Printed by Display Alarm Thread <140023699764992> at <1733098964>: Group(<3>) <15 Modified Message >
+
+Test 5
+Change Non-Existent Alarm
+Description: Attempt to change an alarm that doesn’t exist.
+Input: Change_Alarm(999): Group(4) 20 Non-Existent Alarm
+Output: Error: Alarm ID 999 not found
+
+Test 6
+Cancel an Alarm
+Description: Test canceling an existing alarm.
+Input: Cancel_Alarm(1)
+Context:
+Alarm> Start_Alarm(1): Group(10) 10 Test Alarm Message
+Alarm(<1>) Inserted by Main Thread <139987805886272> Into Alarm List at <1733110365>: Group(<10>) <10 Test Alarm Message>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <139987780687616> For Alarm(<1>) at <1733110365>: Group(<10>) <10 Test Alarm Message>
+Alarm(<1>) Printed by Display Alarm Thread <139987780687616> at <1733110375>: Group(<10>) <10 Test Alarm Message>
+Alarm(<1>) Printed by Display Alarm Thread <139987780687616> at <1733110385>: Group(<10>) <10 Test Alarm Message>
+Cancel_Alarm(1)
+
+Output:
+Alarm(<1>) Canceled at <1733110386>: <10 Test Alarm Message>
+Alarm> No More Alarms in Group(<10>) Alarm Removal Thread Has Removed Display Alarm Thread <139987780687616> at <1733110386>: Group(<10>)
+
+Test 7
+Cancel Non-Existent Alarm
+Description: Attempt to cancel an alarm that doesn’t exist.
+Input: Cancel_Alarm(999)
+Output: 
+Error: Alarm ID 999 not found
+
+Test 8
+Suspend an Alarm
+Description: Test suspending an active alarm.
+Input: Suspend_Alarm(1)
+Output: 
+Alarm(<1>) Suspended at <1733112128>: Group(<10>) <10 Test Alarm Message>
+
+Test 9
+Reactivate a Suspended Alarm
+Description: Test reactivating a suspended alarm.
+Input: Reactivate_Alarm(1)
+Output:
+Alarm(<1>) Reactivated at <1733112243>: Group(<10>) <10 Test Alarm Message>
+Alarm> Alarm(<1>) Printed by Display Alarm Thread <139648490297088> at <1733112243>: Group(<10>) <10 Test Alarm Message>
+Alarm(<1>) Printed by Display Alarm Thread <139648490297088> at <1733112253>: Group(<10>) <10 Test Alarm Message>
+Alarm(<1>) Printed by Display Alarm Thread <139648490297088> at <1733112263>: Group(<10>) <10 Test Alarm Message>
+
+Test 10
+View Alarms
+Description: Display all alarms in the system.
+Input: 
+Start_Alarm(1): Group(321) 10 Test Alarm Message: HELLO
+Start_Alarm(4): Group(21) 5 Different Group ID
+Start_Alarm(3): Group(321) 15 Same Group ID as in Alarm(1): Hello Again
+Suspend_Alarm(3)
+View_Alarms
+
+Output:
+View Alarms at <1733166674>:
+1. Display Thread <140143172253440> Assigned:
+   1a. Alarm(<4>): Created at <1733166615> Assigned at <1733166615> <5 Different Group ID> Status <Active>
+2. Display Thread <140143247881984> Assigned:
+   2a. Alarm(<1>): Created at <1733166594> Assigned at <1733166594> <10 Test Alarm Message: HELLO> Status <Active>
+   2b. Alarm(<3>): Created at <1733166628> Assigned at <1733166628> <15 Same Group ID as in Alarm(1): Hello Again> Status <Suspended>
+
+Test 11
+Start Multiple Alarms in Different Groups
+Description: Test adding alarms to different groups and ensure proper thread assignment.
+Input: Start_Alarm(2): Group(3) 20 Alarm 2
+Input: Start_Alarm(3): Group(4) 25 Alarm 3
+Output:
+Alarm> Start_Alarm(2): Group(3) 20 Alarm 2
+Alarm(<2>) Inserted by Main Thread <140611476760384> Into Alarm List at <1733112867>: Group(<3>) <20 Alarm 2>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <140611451561728> For Alarm(<2>) at <1733112867>: Group(<3>) <20 Alarm 2>
+Start_Alarm(3): Group(4) 25 Alarm 3
+Alarm(<3>) Inserted by Main Thread <140611476760384> Into Alarm List at <1733112875>: Group(<4>) <25 Alarm 3>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <140611443169024> For Alarm(<3>) at <1733112875>: Group(<4>) <25 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140611451561728> at <1733112887>: Group(<3>) <20 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140611443169024> at <1733112900>: Group(<4>) <25 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140611451561728> at <1733112907>: Group(<3>) <20 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140611443169024> at <1733112925>: Group(<4>) <25 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140611451561728> at <1733112927>: Group(<3>) <20 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140611451561728> at <1733112947>: Group(<3>) <20 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140611443169024> at <1733112950>: Group(<4>) <25 Alarm 3>
+
+Test 12
+Remove Threads for Empty Groups
+Description: Verify that threads are terminated for groups with no active alarms.
+Input: Cancel_Alarm(2) (last alarm in group 3)
+Output:
+Alarm> Start_Alarm(2): Group(3) 20 Alarm 2
+Alarm(<2>) Inserted by Main Thread <139958484223808> Into Alarm List at <1733113088>: Group(<3>) <20 Alarm 2>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <139958459025152> For Alarm(<2>) at <1733113088>: Group(<3>) <20 Alarm 2>
+Start_Alarm(3): Group(4) 25 Alarm 3
+Alarm(<3>) Inserted by Main Thread <139958484223808> Into Alarm List at <1733113095>: Group(<4>) <25 Alarm 3>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <139958450632448> For Alarm(<3>) at <1733113095>: Group(<4>) <25 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <139958459025152> at <1733113108>: Group(<3>) <20 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <139958450632448> at <1733113120>: Group(<4>) <25 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <139958459025152> at <1733113128>: Group(<3>) <20 Alarm 2>
+Cancel_Alarm(2)
+Alarm(<2>) Canceled at <1733113131>: <20 Alarm 2>
+Alarm> No More Alarms in Group(<3>) Alarm Removal Thread Has Removed Display Alarm Thread <139958459025152> at <1733113131>: Group(<3>)
+Alarm(<3>) Printed by Display Alarm Thread <139958450632448> at <1733113145>: Group(<4>) <25 Alarm 3>
+Alarm(<3>) Printed by Display Alarm Thread <139958450632448> at <1733113170>: Group(<4>) <25 Alarm 3>
+
+Test 13
+Handle Simultaneous Commands
+Description: Test concurrency by issuing multiple commands in quick succession.
+Input multiple commands in rapid sequence:
+Start_Alarm(4): Group(5) 30 Alarm 4
+Suspend_Alarm(4)
+Reactivate_Alarm(4)
+Cancel_Alarm(4)
+
+Output:
+Alarm> Start_Alarm(4): Group(5) 30 Alarm 4
+Suspend_Alarm(4)
+Reactivate_Alarm(4)
+Cancel_Alarm(4)Alarm(<4>) Inserted by Main Thread <140017998706496> Into Alarm List at <1733113379>: Group(<5>) <30 Alarm 4>
+Alarm> Alarm(<4>) Suspended at <1733113379>: Group(<5>) <30 Alarm 4>
+Alarm> Alarm(<4>) Reactivated at <1733113379>: Group(<5>) <30 Alarm 4>
+Alarm> 
+Alarm(<4>) Canceled at <1733113381>: <30 Alarm 4>
+
+
+Test 14
+My personal list of random commands
+Description: Test the system’s response to random and unpredictable commands
+Input multiple commands in the following sequence (not rapid):
+
+Start_Alarm(1): Group(10) 10 Alarm 1
+Change_Alarm(1): Group(20) 15 Alarm 1 Changed
+Start_Alarm(2): Group(20) 5 Alarm 2
+View_Alarms Suspend_Alarm(1)
+View_Alarms Reactivate_Alarm(1) View_Alarms Cancel_Alarm(1)
+View_Alarms
+Start_Alarm(3): Group(30) 10 Alarm 3 Start_Alarm(4): Group(40) 15 Alarm 4
+View_Alarms Cancel_Alarm(4) View_Alarms Start_Alarm(1): Group(10) 10 Alarm 1 Again Change_Alarm(3): Group(20) 15 Changed Alarm 3 View_Alarms
+
+ Output:
+Alarm> Start_Alarm(1): Group(10) 10 Alarm 1
+Alarm(<1>) Inserted by Main Thread <140425933059904> Into Alarm List at <1733166793>: Group(<10>) <10 Alarm 1>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <140425834788608> For Alarm(<1>) at <1733166793>: Group(<10>) <10 Alarm 1>
+Alarm(<1>) Printed by Display Alarm Thread <140425834788608> at <1733166803>: Group(<10>) <10 Alarm 1>
+Change_Alarm(1): Group(20) 15 Alarm 1 Changed
+Alarm(<1>) Changed at <1733166805>: Group(<20>) <15 Alarm 1 Changed>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <140425826395904> For Alarm(<1>) at <1733166805>: Group(<20>) <15 Alarm 1 Changed>
+No More Alarms in Group(<10>) Alarm Removal Thread Has Removed Display Alarm Thread <140425834788608> at <1733166805>: Group(<10>)
+Display Thread <140425826395904> Starts to Print Changed Message Alarm(<1>) at <1733166813>: Group(<20>) <15 Alarm 1 Changed>
+Alarm(<1>) Printed by Display Alarm Thread <140425826395904> at <1733166813>: Group(<20>) <15 Alarm 1 Changed>
+Start_Alarm(2): Group(20) 5 Alarm 2
+Alarm(<2>) Inserted by Main Thread <140425933059904> Into Alarm List at <1733166817>: Group(<20>) <5 Alarm 2>
+Alarm> Alarm Thread Display Alarm Thread <140425826395904> Assigned to Display Alarm(<2>) at <1733166817>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166822>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166827>: Group(<20>) <5 Alarm 2>
+View_Alarms
+View Alarms at <1733166827>:
+1. Display Thread <140425826395904> Assigned:
+   1a. Alarm(<1>): Created at <1733166793> Assigned at <1733166805> <15 Alarm 1 Changed> Status <Active>
+   1b. Alarm(<2>): Created at <1733166817> Assigned at <1733166817> <5 Alarm 2> Status <Active>
+Alarm> Alarm(<1>) Printed by Display Alarm Thread <140425826395904> at <1733166828>: Group(<20>) <15 Alarm 1 Changed>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166832>: Group(<20>) <5 Alarm 2>
+Suspend_Alarm(1)
+Alarm(<1>) Suspended at <1733166833>: Group(<20>) <15 Alarm 1 Changed>
+Alarm> Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166837>: Group(<20>) <5 Alarm 2>
+View_Alarms
+View Alarms at <1733166841>:
+1. Display Thread <140425826395904> Assigned:
+   1a. Alarm(<1>): Created at <1733166793> Assigned at <1733166805> <15 Alarm 1 Changed> Status <Suspended>
+   1b. Alarm(<2>): Created at <1733166817> Assigned at <1733166817> <5 Alarm 2> Status <Active>
+Alarm> Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166842>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166847>: Group(<20>) <5 Alarm 2>
+Reactivate_Alarm(1)
+Alarm(<1>) Reactivated at <1733166847>: Group(<20>) <15 Alarm 1 Changed>
+Alarm> Alarm(<1>) Printed by Display Alarm Thread <140425826395904> at <1733166847>: Group(<20>) <15 Alarm 1 Changed>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166852>: Group(<20>) <5 Alarm 2>
+View_Alarms
+View Alarms at <1733166856>:
+1. Display Thread <140425826395904> Assigned:
+   1a. Alarm(<1>): Created at <1733166793> Assigned at <1733166805> <15 Alarm 1 Changed> Status <Active>
+   1b. Alarm(<2>): Created at <1733166817> Assigned at <1733166817> <5 Alarm 2> Status <Active>
+Alarm> Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166857>: Group(<20>) <5 Alarm 2>
+Alarm(<1>) Printed by Display Alarm Thread <140425826395904> at <1733166862>: Group(<20>) <15 Alarm 1 Changed>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166862>: Group(<20>) <5 Alarm 2>
+Cancel_Alarm(1)
+Alarm(<1>) Canceled at <1733166864>: <15 Alarm 1 Changed>
+Alarm> Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166867>: Group(<20>) <5 Alarm 2>
+View_Alarms
+View Alarms at <1733166870>:
+1. Display Thread <140425826395904> Assigned:
+   1a. Alarm(<2>): Created at <1733166817> Assigned at <1733166817> <5 Alarm 2> Status <Active>
+Alarm> Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166872>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166877>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166882>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166887>: Group(<20>) <5 Alarm 2>
+Start_Alarm(3): Group(30) 10 Alarm 3
+Alarm(<3>) Inserted by Main Thread <140425933059904> Into Alarm List at <1733166887>: Group(<30>) <10 Alarm 3>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <140425818003200> For Alarm(<3>) at <1733166887>: Group(<30>) <10 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166892>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166897>: Group(<20>) <5 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140425818003200> at <1733166897>: Group(<30>) <10 Alarm 3>
+Start_Alarm(4): Group(40) 15 Alarm 4
+Alarm(<4>) Inserted by Main Thread <140425933059904> Into Alarm List at <1733166898>: Group(<40>) <15 Alarm 4>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <140425809610496> For Alarm(<4>) at <1733166898>: Group(<40>) <15 Alarm 4>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166902>: Group(<20>) <5 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140425818003200> at <1733166907>: Group(<30>) <10 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166907>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166912>: Group(<20>) <5 Alarm 2>
+Alarm(<4>) Printed by Display Alarm Thread <140425809610496> at <1733166913>: Group(<40>) <15 Alarm 4>
+View_Alarms
+View Alarms at <1733166914>:
+1. Display Thread <140425826395904> Assigned:
+   1a. Alarm(<2>): Created at <1733166817> Assigned at <1733166817> <5 Alarm 2> Status <Active>
+2. Display Thread <140425818003200> Assigned:
+   2a. Alarm(<3>): Created at <1733166887> Assigned at <1733166887> <10 Alarm 3> Status <Active>
+3. Display Thread <140425809610496> Assigned:
+   3a. Alarm(<4>): Created at <1733166898> Assigned at <1733166898> <15 Alarm 4> Status <Active>
+Alarm> Alarm(<3>) Printed by Display Alarm Thread <140425818003200> at <1733166917>: Group(<30>) <10 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166917>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166922>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166927>: Group(<20>) <5 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140425818003200> at <1733166927>: Group(<30>) <10 Alarm 3>
+Alarm(<4>) Printed by Display Alarm Thread <140425809610496> at <1733166928>: Group(<40>) <15 Alarm 4>
+Cancel_Alarm(4)
+Alarm(<4>) Canceled at <1733166929>: <15 Alarm 4>
+Alarm> No More Alarms in Group(<40>) Alarm Removal Thread Has Removed Display Alarm Thread <140425809610496> at <1733166929>: Group(<40>)
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166932>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166937>: Group(<20>) <5 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140425818003200> at <1733166937>: Group(<30>) <10 Alarm 3>
+View_Alarms
+View Alarms at <1733166938>:
+1. Display Thread <140425826395904> Assigned:
+   1a. Alarm(<2>): Created at <1733166817> Assigned at <1733166817> <5 Alarm 2> Status <Active>
+2. Display Thread <140425818003200> Assigned:
+   2a. Alarm(<3>): Created at <1733166887> Assigned at <1733166887> <10 Alarm 3> Status <Active>
+Alarm> Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166942>: Group(<20>) <5 Alarm 2>
+Start_Alarm(1): Group(10) 10 Alarm 1 Again
+Alarm(<1>) Inserted by Main Thread <140425933059904> Into Alarm List at <1733166945>: Group(<10>) <10 Alarm 1 Again>
+Alarm> Alarm Group Display Creation Thread Created New Display Alarm Thread <140425801217792> For Alarm(<1>) at <1733166945>: Group(<10>) <10 Alarm 1 Again>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166947>: Group(<20>) <5 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140425818003200> at <1733166947>: Group(<30>) <10 Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166952>: Group(<20>) <5 Alarm 2>
+Alarm(<1>) Printed by Display Alarm Thread <140425801217792> at <1733166955>: Group(<10>) <10 Alarm 1 Again>
+Change_Alarm(3): Group(20) 15 Changed Alarm 3
+Alarm(<3>) Changed at <1733166956>: Group(<20>) <15 Changed Alarm 3>
+Alarm> No More Alarms in Group(<30>) Alarm Removal Thread Has Removed Display Alarm Thread <140425818003200> at <1733166956>: Group(<30>)
+Alarm Thread Display Alarm Thread <140425826395904> Assigned to Display Alarm(<3>) at <1733166956>: Group(<20>) <15 Changed Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166957>: Group(<20>) <5 Alarm 2>
+Display Thread <140425826395904> Starts to Print Changed Message Alarm(<3>) at <1733166957>: Group(<20>) <15 Changed Alarm 3>
+Alarm(<3>) Printed by Display Alarm Thread <140425826395904> at <1733166957>: Group(<20>) <15 Changed Alarm 3>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166962>: Group(<20>) <5 Alarm 2>
+Alarm(<1>) Printed by Display Alarm Thread <140425801217792> at <1733166965>: Group(<10>) <10 Alarm 1 Again>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166967>: Group(<20>) <5 Alarm 2>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166972>: Group(<20>) <5 Alarm 2>
+Alarm(<3>) Printed by Display Alarm Thread <140425826395904> at <1733166972>: Group(<20>) <15 Changed Alarm 3>
+Alarm(<1>) Printed by Display Alarm Thread <140425801217792> at <1733166975>: Group(<10>) <10 Alarm 1 Again>
+Alarm(<2>) Printed by Display Alarm Thread <140425826395904> at <1733166977>: Group(<20>) <5 Alarm 2>
+View_Alarms
+View Alarms at <1733166978>:
+1. Display Thread <140425801217792> Assigned:
+   1a. Alarm(<1>): Created at <1733166945> Assigned at <1733166945> <10 Alarm 1 Again> Status <Active>
+2. Display Thread <140425826395904> Assigned:
+   2a. Alarm(<2>): Created at <1733166817> Assigned at <1733166817> <5 Alarm 2> Status <Active>
+   2b. Alarm(<3>): Created at <1733166887> Assigned at <1733166956> <15 Changed Alarm 3> Status <Active>
+
+
+
+
+
+
+
+
+
+

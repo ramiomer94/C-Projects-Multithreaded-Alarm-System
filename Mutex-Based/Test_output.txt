@@ -1,0 +1,498 @@
+Test 1: Basic Alarm Creation
+
+Input: Start_Alarm(1): T001 10 Alarm 1
+
+Output:
+
+Alarm(1) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746159: T001 10 Alarm 1
+Alarm> First New Display Thread (139995463063296) Created at 1730746159: T001 10 Alarm 1
+Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995463063296) at 1730746159: T001 10 Alarm 1
+Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995463063296) at 1730746163: T001 10 Alarm 1
+Alarm> Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995463063296) at 1730746167: T001 10 Alarm 1
+Alarm(1): Removing expired alarm from list at 1730746169
+Alarm> Alarm> Display Thread Terminated (139995463063296) at 1730746175: T001
+
+
+
+
+Test 2: Alarm Creation with Immediate Expiry
+
+Input: Start_Alarm(2): T002 1 Immediate Expiry
+
+Output: 
+
+Alarm(2) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746245: T002 1 Immediate Expiry
+Alarm> First New Display Thread (139995452475136) Created at 1730746245: T002 1 Immediate Expiry
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995452475136) at 1730746245: T002 1 Immediate Expiry
+Alarm(2) Expired; Display Thread (139995452475136) Stopped Printing Alarm Message at 1730746249: T002 1 Immediate Expiry
+Alarm(2): Removing expired alarm from list at 1730746250
+Alarm> Alarm> Display Thread Terminated (139995452475136) at 1730746257: T002
+
+
+
+
+Test 3: Multiple Alarms of the Same Type
+
+Input: Start_Alarm(3): T003 15 First of Type -> Delay -> Start_Alarm(4): T003 20 Second of Same Type
+
+Output:
+
+Start_Alarm(3): T003 15 First of Type
+Alarm(3) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746302: T003 15 First of Type
+Alarm> First New Display Thread (139995444082432) Created at 1730746302: T003 15 First of Type
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995444082432) at 1730746302: T003 15 First of Type
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995444082432) at 1730746306: T003 15 First of Type
+Alarm> Start_Alarm(4): T003 20 Second of Same Type
+Alarm(4) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746309: T003 20 Second of Same Type
+Alarm> Alarm (4) Assigned to Display Thread (139995444082432) at 1730746309: T003 20 Second of Same Type
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995444082432) at 1730746310: T003 15 First of Type
+Alarm(4) Message PERIODICALLY PRINTED BY Display Thread (139995444082432) at 1730746310: T003 20 Second of Same Type
+Alarm> Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995444082432) at 1730746314: T003 15 First of Type
+Alarm(4) Message PERIODICALLY PRINTED BY Display Thread (139995444082432) at 1730746314: T003 20 Second of Same Type
+Alarm(3) Expired; Display Thread (139995444082432) Stopped Printing Alarm Message at 1730746318: T003 15 First of Type
+Alarm(3): Removing expired alarm from list at 1730746319
+Alarm> Alarm(4) Message PERIODICALLY PRINTED BY Display Thread (139995444082432) at 1730746322: T003 20 Second of Same Type
+Alarm> Alarm(4) Message PERIODICALLY PRINTED BY Display Thread (139995444082432) at 1730746326: T003 20 Second of Same Type
+Alarm(4): Removing expired alarm from list at 1730746329
+Alarm> Alarm> Display Thread Terminated (139995444082432) at 1730746334: T003
+
+
+
+
+Test 4: Alarm Creation and View Alarms
+
+Input: Start_Alarm(5): T004 25 Alarm with View -> Delay -> View_Alarms
+
+Output:
+
+Start_Alarm(5): T004 25 Alarm with View
+Alarm(5) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746404: T004 25 Alarm with View
+Alarm> First New Display Thread (139995435689728) Created at 1730746404: T004 25 Alarm with View
+Alarm(5) Message PERIODICALLY PRINTED BY Display Thread (139995435689728) at 1730746404: T004 25 Alarm with View
+Alarm(5) Message PERIODICALLY PRINTED BY Display Thread (139995435689728) at 1730746408: T004 25 Alarm with View
+Alarm(5) Message PERIODICALLY PRINTED BY Display Thread (139995435689728) at 1730746412: T004 25 Alarm with View
+Alarm> View_Alarms
+View Alarms at 1730746413:
+1. Display Thread 139995435689728 Assigned:
+1a. Alarm(5): T004 25 Alarm with View
+Alarm> Alarm(5) Message PERIODICALLY PRINTED BY Display Thread (139995435689728) at 1730746416: T004 25 Alarm with View
+Alarm> Alarm(5) Message PERIODICALLY PRINTED BY Display Thread (139995435689728) at 1730746420: T004 25 Alarm with View
+Alarm> Alarm(5) Message PERIODICALLY PRINTED BY Display Thread (139995435689728) at 1730746424: T004 25 Alarm with View
+Alarm> Alarm(5) Message PERIODICALLY PRINTED BY Display Thread (139995435689728) at 1730746428: T004 25 Alarm with View
+Alarm(5) Expired; Display Thread (139995435689728) Stopped Printing Alarm Message at 1730746432: T004 25 Alarm with View
+Alarm(5): Removing expired alarm from list at 1730746433
+Alarm> Alarm> Display Thread Terminated (139995435689728) at 1730746440: T004
+
+
+
+
+Test 5: Overlapping Alarms Expiring at Different Times
+
+Input: Start_Alarm(6): T005 30 Overlap Alarm 1 -> Delay -> Start_Alarm(7): T005 40 Overlap Alarm 2
+
+Output:
+
+Alarm> Start_Alarm(6): T005 30 Overlap Alarm 1
+Alarm(6) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746507: T005 30 Overlap Alarm 1
+Alarm> First New Display Thread (139995427297024) Created at 1730746507: T005 30 Overlap Alarm 1
+Alarm(6) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746507: T005 30 Overlap Alarm 1
+Alarm(6) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746511: T005 30 Overlap Alarm 1
+Alarm> Start_Alarm(7): T005 40 Overlap Alarm 2
+Alarm(7) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746514: T005 40 Overlap Alarm 2
+Alarm> Alarm (7) Assigned to Display Thread (139995427297024) at 1730746514: T005 40 Overlap Alarm 2
+Alarm(6) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746515: T005 30 Overlap Alarm 1
+Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746515: T005 40 Overlap Alarm 2
+Alarm> Alarm(6) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746519: T005 30 Overlap Alarm 1
+Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746519: T005 40 Overlap Alarm 2
+Alarm(6) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746523: T005 30 Overlap Alarm 1
+Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746523: T005 40 Overlap Alarm 2
+Alarm> Alarm(6) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746527: T005 30 Overlap Alarm 1
+Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746527: T005 40 Overlap Alarm 2
+Alarm> Alarm(6) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746531: T005 30 Overlap Alarm 1
+Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746531: T005 40 Overlap Alarm 2
+Alarm> Alarm(6) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746535: T005 30 Overlap Alarm 1
+Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746535: T005 40 Overlap Alarm 2
+Alarm(6): Removing expired alarm from list at 1730746539
+Alarm> Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746539: T005 40 Overlap Alarm 2
+Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746543: T005 40 Overlap Alarm 2
+Alarm> Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746547: T005 40 Overlap Alarm 2
+Alarm> Alarm(7) Message PERIODICALLY PRINTED BY Display Thread (139995427297024) at 1730746551: T005 40 Overlap Alarm 2
+Alarm(7): Removing expired alarm from list at 1730746554
+Alarm> Alarm> Display Thread Terminated (139995427297024) at 1730746560: T005
+
+
+
+
+Test 6: Cancel an Existing Alarm:
+
+Input: Start_Alarm(8): T006 50 Cancellable Alarm -> Delay -> Cancel_Alarm(8)
+
+Output:
+
+Alarm> Start_Alarm(8): T006 50 Cancellable Alarm 
+Alarm(8) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746613: T006 50 Cancellable Alarm 
+Alarm> First New Display Thread (139995418904320) Created at 1730746613: T006 50 Cancellable Alarm 
+Alarm(8) Message PERIODICALLY PRINTED BY Display Thread (139995418904320) at 1730746613: T006 50 Cancellable Alarm 
+Alarm(8) Message PERIODICALLY PRINTED BY Display Thread (139995418904320) at 1730746617: T006 50 Cancellable Alarm 
+Alarm> Alarm(8) Message PERIODICALLY PRINTED BY Display Thread (139995418904320) at 1730746621: T006 50 Cancellable Alarm 
+Alarm> Cancel_Alarm(8)
+Alarm(8) Cancelled at 1730746624: T006 50 Cancellable Alarm 
+Alarm(8) Cancelled; Display Thread (139995418904320) Stopped Printing Alarm Message at 1730746624: T006 50 Cancellable Alarm 
+Alarm> Alarm> Display Thread Terminated (139995418904320) at 1730746632: T006
+
+
+
+
+Test 7: Change Alarm Duration Before Expiry:
+
+Input: Start_Alarm(9): T007 60 Changeable Alarm -> Delay -> Change_Alarm(9): T007 90 New Duration
+
+Output: 
+
+Start_Alarm(9): T007 60 Changeable Alarm
+Alarm(9) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746681: T007 60 Changeable Alarm
+Alarm> First New Display Thread (139995410511616) Created at 1730746681: T007 60 Changeable Alarm
+Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995410511616) at 1730746681: T007 60 Changeable Alarm
+Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995410511616) at 1730746685: T007 60 Changeable Alarm
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995410511616) at 1730746689: T007 60 Changeable Alarm
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995410511616) at 1730746693: T007 60 Changeable Alarm
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995410511616) at 1730746697: T007 60 Changeable Alarm
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995410511616) at 1730746701: T007 60 Changeable Alarm
+Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995410511616) at 1730746705: T007 60 Changeable Alarm
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995410511616) at 1730746709: T007 60 Changeable Alarm
+Change_Alarm(9): T007 90 New DurationAlarm> 
+Alarm(9) Changed at 1730746711: T007 90 New Duration
+Alarm> First New Display Thread (139995331426048) Created at 1730746711: T007 90 New Duration
+Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746711: T007 90 New Duration
+Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746715: T007 90 New Duration
+Alarm> Display Thread Terminated (139995410511616) at 1730746717: T007
+Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746719: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746723: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746727: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746731: T007 90 New Duration
+Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746735: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746739: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746743: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746747: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746751: T007 90 New Duration
+Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746755: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746759: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746763: T007 90 New Duration
+Alarm> Alarm(9) Message PERIODICALLY PRINTED BY Display Thread (139995331426048) at 1730746767: T007 90 New Duration
+Alarm(9): Removing expired alarm from list at 1730746771
+Alarm> Display Thread Terminated (139995331426048) at 1730746775: T007
+
+
+Test 8: Rapid Alarm Creation and Deletion:
+
+Input: Start_Alarm(10): T008 10 Rapid Alarm -> Cancel_Alarm(10)
+
+Output:
+
+Alarm> Start_Alarm(10): T008 10 Rapid Alarm
+Alarm(10) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746825: T008 10 Rapid Alarm
+Alarm> First New Display Thread (139995323033344) Created at 1730746825: T008 10 Rapid Alarm
+Alarm(10) Message PERIODICALLY PRINTED BY Display Thread (139995323033344) at 1730746825: T008 10 Rapid Alarm
+Cancel_Alarm(10)Alarm(10) Message PERIODICALLY PRINTED BY Display Thread (139995323033344) at 1730746829: T008 10 Rapid Alarm
+
+Alarm(10) Cancelled at 1730746830: T008 10 Rapid Alarm
+Alarm(10) Cancelled; Display Thread (139995323033344) Stopped Printing Alarm Message at 1730746830: T008 10 Rapid Alarm
+Alarm> Alarm> Display Thread Terminated (139995323033344) at 1730746838: T008
+
+
+
+
+Test 9: Start and View Multiple Alarms on Different Types:
+
+Input: Start_Alarm(11): T009 20 Type A -> Start_Alarm(12): T010 25 Type B -> View_Alarms
+
+Output: 
+
+Start_Alarm(11): T009 20 Type A 
+Alarm(11) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746944: T009 20 Type A 
+Alarm> First New Display Thread (139995314640640) Created at 1730746944: T009 20 Type A 
+Alarm(11) Message PERIODICALLY PRINTED BY Display Thread (139995314640640) at 1730746944: T009 20 Type A 
+Alarm(11) Message PERIODICALLY PRINTED BY Display Thread (139995314640640) at 1730746948: T009 20 Type A 
+Alarm> Start_Alarm(12): T010 25 Type B
+Alarm(12) Inserted by Main Thread (139995479869248) Into Alarm List at 1730746950: T010 25 Type B
+Alarm> First New Display Thread (139995306247936) Created at 1730746950: T010 25 Type B
+Alarm(12) Message PERIODICALLY PRINTED BY Display Thread (139995306247936) at 1730746950: T010 25 Type B
+Alarm(11) Message PERIODICALLY PRINTED BY Display Thread (139995314640640) at 1730746952: T009 20 Type A 
+Alarm(12) Message PERIODICALLY PRINTED BY Display Thread (139995306247936) at 1730746954: T010 25 Type B
+Alarm> Alarm(11) Message PERIODICALLY PRINTED BY Display Thread (139995314640640) at 1730746956: T009 20 Type A 
+Alarm(12) Message PERIODICALLY PRINTED BY Display Thread (139995306247936) at 1730746958: T010 25 Type B
+View_Alarms
+View Alarms at 1730746960:
+1. Display Thread 139995314640640 Assigned:
+1a. Alarm(11): T009 20 Type A 
+2. Display Thread 139995306247936 Assigned:
+2a. Alarm(12): T010 25 Type B
+Alarm> Alarm(11) Message PERIODICALLY PRINTED BY Display Thread (139995314640640) at 1730746960: T009 20 Type A 
+Alarm(12) Message PERIODICALLY PRINTED BY Display Thread (139995306247936) at 1730746962: T010 25 Type B
+Alarm(11) Expired; Display Thread (139995314640640) Stopped Printing Alarm Message at 1730746964: T009 20 Type A 
+Alarm(11): Removing expired alarm from list at 1730746965
+Alarm> Alarm(12) Message PERIODICALLY PRINTED BY Display Thread (139995306247936) at 1730746966: T010 25 Type B
+Alarm> Alarm(12) Message PERIODICALLY PRINTED BY Display Thread (139995306247936) at 1730746970: T010 25 Type B
+Display Thread Terminated (139995314640640) at 1730746972: T009
+Alarm(12) Message PERIODICALLY PRINTED BY Display Thread (139995306247936) at 1730746974: T010 25 Type B
+Alarm(12): Removing expired alarm from list at 1730746975
+Alarm> Alarm> Display Thread Terminated (139995306247936) at 1730746982: T010
+
+
+
+
+Test 10: Alarm Creation with Large Intervals:
+
+Input: Start_Alarm(20): T017 120 Long Duration Alarm
+
+Output: 
+
+Alarm> Start_Alarm(20): T017 120 Long Duration Alarm
+Alarm(20) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747106: T017 120 Long Duration Alarm
+Alarm> First New Display Thread (139995297855232) Created at 1730747106: T017 120 Long Duration Alarm
+Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747106: T017 120 Long Duration Alarm
+Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747110: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747114: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747118: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747122: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747126: T017 120 Long Duration Alarm
+Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747130: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747134: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747138: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747142: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747146: T017 120 Long Duration Alarm
+Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747150: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747154: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747158: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747162: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747166: T017 120 Long Duration Alarm
+Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747170: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747174: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747178: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747182: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747186: T017 120 Long Duration Alarm
+Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747190: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747194: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747198: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747202: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747206: T017 120 Long Duration Alarm
+Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747210: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747214: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747218: T017 120 Long Duration Alarm
+Alarm> Alarm(20) Message PERIODICALLY PRINTED BY Display Thread (139995297855232) at 1730747222: T017 120 Long Duration Alarm
+Alarm(20): Removing expired alarm from list at 1730747226
+Alarm> Display Thread Terminated (139995297855232) at 1730747230: T017
+
+
+
+
+Test 11: Rapid Fire Alarms:
+
+Input: Start_Alarm(24): Start_Alarm(21): T018 5 Rapid Alarm 1 -> Start_Alarm(22): T018 6 Rapid Alarm 2 -> Start_Alarm(23): T018 7 Rapid Alarm 3
+
+Output: 
+
+Alarm> Start_Alarm(21): T018 5 Rapid Alarm 1
+Alarm(21) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747361: T018 5 Rapid Alarm 1
+Alarm> First New Display Thread (139995197208320) Created at 1730747361: T018 5 Rapid Alarm 1
+Alarm(21) Message PERIODICALLY PRINTED BY Display Thread (139995197208320) at 1730747361: T018 5 Rapid Alarm 1
+Start_Alarm(22): T018 6 Rapid Alarm 2
+Alarm(22) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747362: T018 6 Rapid Alarm 2
+Alarm> Alarm (22) Assigned to Display Thread (139995197208320) at 1730747362: T018 6 Rapid Alarm 2
+Alarm(21) Message PERIODICALLY PRINTED BY Display Thread (139995197208320) at 1730747365: T018 5 Rapid Alarm 1
+Alarm(22) Message PERIODICALLY PRINTED BY Display Thread (139995197208320) at 1730747365: T018 6 Rapid Alarm 2
+Start_Alarm(23): T018 7 Rapid Alarm 3
+Alarm(23) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747367: T018 7 Rapid Alarm 3
+Alarm> Additional New Display Thread (139995188815616) Created at 1730747367: T018 7 Rapid Alarm 3
+Alarm(23) Message PERIODICALLY PRINTED BY Display Thread (139995188815616) at 1730747367: T018 7 Rapid Alarm 3
+Alarm(21) Expired; Display Thread (139995197208320) Stopped Printing Alarm Message at 1730747369: T018 5 Rapid Alarm 1
+Alarm(23) Message PERIODICALLY PRINTED BY Display Thread (139995188815616) at 1730747371: T018 7 Rapid Alarm 3
+Alarm(21): Removing expired alarm from list at 1730747372
+Alarm(22): Removing expired alarm from list at 1730747372
+Alarm> Alarm(23) Expired; Display Thread (139995188815616) Stopped Printing Alarm Message at 1730747375: T018 7 Rapid Alarm 3
+Alarm(23): Removing expired alarm from list at 1730747377
+Alarm> Display Thread Terminated (139995197208320) at 1730747377: T018
+Alarm> Display Thread Terminated (139995188815616) at 1730747383: T018
+
+
+
+
+Test 12: Alarm Creation and Cancellation Mix:
+
+Input: Start_Alarm(24): T019 20 Mixed Test 1 -> Start_Alarm(25): T019 25 Mixed Test 2 -> Cancel_Alarm(24)
+
+Output: 
+
+Alarm> Start_Alarm(24): T019 20 Mixed Test 1 Alarm> 
+Alarm(24) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747453: T019 20 Mixed Test 1 
+Alarm> First New Display Thread (139995180422912) Created at 1730747453: T019 20 Mixed Test 1 
+Alarm(24) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747453: T019 20 Mixed Test 1 
+Alarm(24) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747457: T019 20 Mixed Test 1 
+Alarm> Alarm(24) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747461: T019 20 Mixed Test 1 
+Start_Alarm(25): T019 25 Mixed Test 2
+Alarm(25) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747462: T019 25 Mixed Test 2
+Alarm> Alarm (25) Assigned to Display Thread (139995180422912) at 1730747462: T019 25 Mixed Test 2
+Alarm(24) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747465: T019 20 Mixed Test 1 
+Alarm(25) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747465: T019 25 Mixed Test 2
+Alarm> Alarm(24) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747469: T019 20 Mixed Test 1 
+Alarm(25) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747469: T019 25 Mixed Test 2
+Alarm> Alarm(24) Expired; Display Thread (139995180422912) Stopped Printing Alarm Message at 1730747473: T019 20 Mixed Test 1 
+Cancel_Alarm(24)
+Alarm(24) Cancelled at 1730747474: T019 20 Mixed Test 1 
+Alarm> Alarm(25) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747474: T019 25 Mixed Test 2
+Alarm(25) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747478: T019 25 Mixed Test 2
+Alarm> Alarm(25) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747482: T019 25 Mixed Test 2
+Alarm> Alarm(25) Message PERIODICALLY PRINTED BY Display Thread (139995180422912) at 1730747486: T019 25 Mixed Test 2
+Alarm(25): Removing expired alarm from list at 1730747489
+Alarm> Alarm> Display Thread Terminated (139995180422912) at 1730747494: T019
+
+
+
+
+Test 13: Viewing Alarms After Some Has Expired:
+
+Input: Start_Alarm(26): T020 8 Early Expire -> Start_Alarm(27): T020 15 Late Expire -> View_Alarms
+
+Output: 
+
+Alarm> Start_Alarm(26): T020 8 Early Expire
+Alarm(26) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747548: T020 8 Early Expire
+Alarm> First New Display Thread (139995172030208) Created at 1730747548: T020 8 Early Expire
+Alarm(26) Message PERIODICALLY PRINTED BY Display Thread (139995172030208) at 1730747548: T020 8 Early Expire
+Alarm(26) Message PERIODICALLY PRINTED BY Display Thread (139995172030208) at 1730747552: T020 8 Early Expire
+Alarm> Start_Alarm(27): T020 15 Late Expire
+Alarm(27) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747555: T020 15 Late Expire
+Alarm> Alarm (27) Assigned to Display Thread (139995172030208) at 1730747555: T020 15 Late Expire
+Alarm(26) Expired; Display Thread (139995172030208) Stopped Printing Alarm Message at 1730747556: T020 8 Early Expire
+Alarm(26): Removing expired alarm from list at 1730747560
+Alarm(27) Message PERIODICALLY PRINTED BY Display Thread (139995172030208) at 1730747560: T020 15 Late Expire
+Alarm> View_Alarms
+View Alarms at 1730747561:
+1. Display Thread 139995172030208 Assigned:
+1a. Alarm(27): T020 15 Late Expire
+Alarm> Alarm(27) Message PERIODICALLY PRINTED BY Display Thread (139995172030208) at 1730747564: T020 15 Late Expire
+Alarm> Alarm(27) Message PERIODICALLY PRINTED BY Display Thread (139995172030208) at 1730747568: T020 15 Late Expire
+Alarm(27): Removing expired alarm from list at 1730747571
+Alarm> Alarm> Display Thread Terminated (139995172030208) at 1730747576: T020
+
+
+
+
+Test 14: Attempt to Cancel Non Existent Alarm and Inputting Invalid Commands:
+
+Input: Cancel_Alarm(99), Start_Alarm(a): T2 10 HELLO, view_alarm, Change_Alarm(1): hello T2 3
+
+Outputs: 
+
+Alarm>Cancel_Alarm(99)
+Error: Alarm ID 99 not found
+Alarm>
+
+Alarm> Start_Alarm(a): T2 10 HELLOAlarm> 
+Bad Command
+
+
+Alarm> view_alarm
+Error: Invalid request
+
+Alarm> Change_Alarm(1): hello T2 3
+Bad Command
+
+
+
+
+Test 15: View without Any Alarms:
+
+Input: View_Alarms
+
+Output: 
+
+Alarm>View_Alarms
+View Alarms at 1730737136:
+Alarm>
+
+
+
+
+Test 16: Random Testing Sequence:
+
+Input: Start_Alarm(1): T1 50 HELLO -> Start_Alarm(2): T1 60 WAIT -> Start_Alarm(3): T1 65 BYE BYE -> View_Alarms -> Cancel_Alarm(1) -> View_Alarms -> Change_Alarm(2): T2 35 DON’T WAIT -> View_Alarms -> View_Alarms
+
+Output: 
+
+Alarm> Start_Alarm(1): T1 50 HELLO
+Alarm(1) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747896: T1 50 HELLO
+Alarm> First New Display Thread (139995138459392) Created at 1730747896: T1 50 HELLO
+Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747896: T1 50 HELLO
+Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747900: T1 50 HELLO
+Alarm> Start_Alarm(2): T1 60 WAITAlarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747904: T1 50 HELLO
+
+Alarm(2) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747905: T1 60 WAIT
+Alarm> Alarm (2) Assigned to Display Thread (139995138459392) at 1730747905: T1 60 WAIT
+Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747908: T1 50 HELLO
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747908: T1 60 WAIT
+Alarm> Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747912: T1 50 HELLO
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747912: T1 60 WAIT
+Alarm> Start_Alarm(3): T1 65 BYE BYEAlarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747916: T1 50 HELLO
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747916: T1 60 WAIT
+
+Alarm(3) Inserted by Main Thread (139995479869248) Into Alarm List at 1730747917: T1 65 BYE BYE
+Alarm> Additional New Display Thread (139995130066688) Created at 1730747917: T1 65 BYE BYE
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747917: T1 65 BYE BYE
+Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747920: T1 50 HELLO
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747920: T1 60 WAIT
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747921: T1 65 BYE BYE
+Alarm> View_Alarms
+View Alarms at 1730747924:
+1. Display Thread 139995138459392 Assigned:
+1a. Alarm(1): T1 50 HELLO
+1b. Alarm(2): T1 60 WAIT
+2. Display Thread 139995130066688 Assigned:
+2a. Alarm(3): T1 65 BYE BYE
+Alarm> Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747924: T1 50 HELLO
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747924: T1 60 WAIT
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747925: T1 65 BYE BYE
+Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747928: T1 50 HELLO
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747928: T1 60 WAIT
+Alarm> Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747929: T1 65 BYE BYE
+Alarm(1) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747932: T1 50 HELLO
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747932: T1 60 WAIT
+Cancel_Alarm(1)
+Alarm(1) Cancelled at 1730747933: T1 50 HELLO
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747933: T1 65 BYE BYE
+Alarm(1) Cancelled; Display Thread (139995138459392) Stopped Printing Alarm Message at 1730747936: T1 50 HELLO
+Alarm> Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747937: T1 65 BYE BYE
+View_Alarms
+View Alarms at 1730747940:
+1. Display Thread 139995138459392 Assigned:
+1a. Alarm(2): T1 60 WAIT
+2. Display Thread 139995130066688 Assigned:
+2a. Alarm(3): T1 65 BYE BYE
+Alarm> Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747940: T1 60 WAIT
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747941: T1 65 BYE BYE
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747944: T1 60 WAIT
+Alarm> Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747945: T1 65 BYE BYE
+Alarm(2) Message PERIODICALLY PRINTED BY Display Thread (139995138459392) at 1730747949: T1 60 WAIT
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747949: T1 65 BYE BYE
+Change_Alarm(2): T2 35 DON’T WAIT
+Alarm(2) Changed at 1730747950: T2 35 DON’T WAIT
+Alarm> First New Display Thread (139995121673984) Created at 1730747950: T2 35 DON’T WAIT
+Alarm(2) Expired; Display Thread (139995121673984) Stopped Printing Alarm Message at 1730747950: T2 35 DON’T WAIT
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747953: T1 65 BYE BYE
+Alarm(2): Removing expired alarm from list at 1730747955
+Alarm> View_Alarms
+View Alarms at 1730747957:
+1. Display Thread 139995130066688 Assigned:
+1a. Alarm(3): T1 65 BYE BYE
+Alarm> Display Thread Terminated (139995138459392) at 1730747957: T1
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747957: T1 65 BYE BYE
+Display Thread Terminated (139995121673984) at 1730747958: T2
+Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747961: T1 65 BYE BYE
+Alarm> Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747966: T1 65 BYE BYE
+Alarm> Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747970: T1 65 BYE BYE
+Alarm> Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747974: T1 65 BYE BYE
+Alarm> Alarm(3) Message PERIODICALLY PRINTED BY Display Thread (139995130066688) at 1730747978: T1 65 BYE BYE
+Alarm(3): Removing expired alarm from list at 1730747982
+Alarm> View_Alarms
+View Alarms at 1730747983:
+Alarm> Display Thread Terminated (139995130066688) at 1730747987: T1
